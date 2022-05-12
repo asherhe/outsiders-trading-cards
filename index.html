@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>The Outsiders &mdash; Character Cards</title>
+
+    <style>
+      @import url('https://rsms.me/inter/inter.css');
+      @import url(https://fonts.googleapis.com/css?family=Montserrat:300,600);
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        font-family: 'Inter', sans-serif;
+      }
+
+      @supports (font-variation-settings: normal) {
+        html {
+          font-family: 'Inter var', sans-serif;
+        }
+      }
+
+      h1 {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 600;
+        font-size: 2.5em;
+      }
+
+      .card-container {
+        position: relative;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        align-content: center;
+        gap: 50px 50px;
+      }
+
+      .card, .zoom-lens {
+        cursor: crosshair;
+      }
+
+      .zoom-lens {
+        position: absolute;
+        border: 1px solid #606060;
+        border-radius: 10px;
+        width: 200px;
+        height: 200px;
+
+        background-repeat: no-repeat;
+        background-color: #202020;
+      }
+
+      .footer-message {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 300;
+        color: #404040;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>The Outsiders &mdash; Character Trading Cards</h1>
+
+    <p><i>(hover over an image to zoom in in case the text is too small)</i></p>
+
+    <div class="card-container">
+      <img src="./bob.svg" class="card" id="card-bob">
+      <img src="./dally.svg" class="card" id="card-dally">
+      <img src="./soda.svg" class="card" id="card-soda">
+      <img src="./johnny.svg" class="card" id="card-johnny">
+      <img src="./ponyboy.svg" class="card" id="card-ponyboy">
+      <img src="./darry.svg" class="card" id="card-darry">
+    </div>
+
+    <p class="footer-message">
+      Copyright &copy; Brandon and Asher 2022 <br>
+      Content written by Brandon <br>
+      Drawn and Programmed by Asher
+    </p>
+
+    <script>
+      const scale = 4;
+
+      function addZoom(imageID) {
+        /** @type HTMLImageElement */
+        const image = document.getElementById(imageID);
+        // Create a new zoom lens for each image
+        const lens = document.createElement("div");
+        lens.style.display = "none";
+        lens.setAttribute("class", "zoom-lens");
+        image.parentElement.appendChild(lens);
+        lens.style.backgroundImage = `url("${image.src}")`;
+        lens.style.backgroundSize = `${image.width * scale}px ${image.height * scale}px`;
+        
+        /**
+         * @param {MouseEvent} e
+         * @returns {x: number, y: number}
+         */
+        const cursorPos = function (e) {
+          // In case something weird happened
+          e = e || window.event;
+
+          // Get the image's position
+          const imagePos = image.getBoundingClientRect();
+
+          // Calculate the cursor's position relative to the image
+          var x = e.pageX - imagePos.left;
+          var y = e.pageY - imagePos.top;
+
+          // Consider page scrolling
+          x -= window.pageXOffset;
+          y -= window.pageYOffset;
+
+          return {
+            x: x || 0,
+            y: y || 0
+          };
+        }
+        
+        /** @param {MouseEvent} e */
+        const moveLens = function (e) {
+          e.preventDefault();
+          lens.style.display = "block";
+
+          var pos = cursorPos(e);
+          
+          // Calculate the position of the top-left corner of the lens
+          var x = pos.x - (lens.offsetWidth / 2);
+          var y = pos.y - (lens.offsetHeight / 2);
+
+          // Reposition lens image
+          lens.style.backgroundPosition = `-${pos.x * scale - (lens.offsetWidth / 2)}px -${pos.y * scale - (lens.offsetHeight / 2) }px`;
+
+          // Reposition lens
+          lens.style.left = `${x + image.offsetLeft + lens.clientWidth / 2 + 15}px`; // Position lens slightly to the right
+          lens.style.top = `${y + image.offsetTop}px`;
+        }
+
+        /** @param {MouseEvent} e */
+        const removeLens = function (e) {
+          e.preventDefault();
+          lens.style.display = "none";
+        }
+
+        // Add event listeners
+        // lens.addEventListener("mousemove", moveLens);
+        image.addEventListener("mousemove", moveLens);
+        image.addEventListener("mouseout", removeLens);
+        // Also for touchscreen
+        // lens.addEventListener("touchmove", moveLens);
+        image.addEventListener("touchmove", moveLens);
+        image.addEventListener("touchout", removeLens);
+      }
+
+      // Add zoom lenses to all images
+      addZoom("card-bob");
+      addZoom("card-dally");
+      addZoom("card-soda");
+      addZoom("card-johnny");
+      addZoom("card-ponyboy");
+      addZoom("card-darry");
+    </script>
+  </body>
+</html>
