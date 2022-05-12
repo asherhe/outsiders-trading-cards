@@ -92,7 +92,13 @@
   <body>
     <h1>The Outsiders &mdash; Character Trading Cards</h1>
 
-    <p><i>(hover over an image to zoom in in case the text is too small)</i></p>
+    <p>
+      <i>
+        (hover over an image to zoom in in case the text is too small)<br>
+        (also works on touchscreen)<br>
+        (if this is your first time visiting this page zoom may not work properly &mdash; simply reload the page to fix this)
+      </i>
+    </p>
 
     <div class="card-container">
       <img src="./bob.svg" class="card" id="card-bob">
@@ -181,9 +187,9 @@
         image.addEventListener("mousemove", moveLens);
         image.addEventListener("mouseout", removeLens);
         // Also for touchscreen
-        // lens.addEventListener("touchmove", moveLens);
+        image.addEventListener("touchstart", moveLens);
         image.addEventListener("touchmove", moveLens);
-        image.addEventListener("touchout", removeLens);
+        image.addEventListener("touchleave", removeLens);
       }
 
       // Add zoom lenses to all images
