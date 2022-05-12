@@ -24,6 +24,15 @@
         }
       }
 
+      body {
+        text-align: center;
+      }
+
+      body>* {
+        margin-left: auto;
+        margin-right: auto;
+      }
+
       h1 {
         font-family: 'Montserrat', sans-serif;
         font-weight: 600;
@@ -31,15 +40,21 @@
       }
 
       .card-container {
+        width: 90%;
+
         position: relative;
-        display: flex;
+        display: flexbox;
         flex-wrap: wrap;
         align-items: center;
         align-content: center;
-        gap: 50px 50px;
+
+        background-color: #e0e0e0;
+        border-radius: 10px;
+        padding: 20px;
       }
 
-      .card, .zoom-lens {
+      .card {
+        padding: 10px;
         cursor: crosshair;
       }
 
@@ -51,7 +66,9 @@
         height: 200px;
 
         background-repeat: no-repeat;
-        background-color: #202020;
+        background-color: #606060;
+
+        pointer-events: none;
       }
 
       .footer-message {
@@ -82,7 +99,7 @@
     </p>
 
     <script>
-      const scale = 4;
+      const scale = 2;
 
       function addZoom(imageID) {
         /** @type HTMLImageElement */
@@ -132,10 +149,14 @@
           var y = pos.y - (lens.offsetHeight / 2);
 
           // Reposition lens image
-          lens.style.backgroundPosition = `-${pos.x * scale - (lens.offsetWidth / 2)}px -${pos.y * scale - (lens.offsetHeight / 2) }px`;
+          lens.style.backgroundPosition = `-${
+            pos.x * scale - (lens.offsetWidth / 2)
+          }px -${
+            pos.y * scale - (lens.offsetHeight / 2)
+          }px`;
 
           // Reposition lens
-          lens.style.left = `${x + image.offsetLeft + lens.clientWidth / 2 + 15}px`; // Position lens slightly to the right
+          lens.style.left = `${x + image.offsetLeft}px`; // Position lens slightly to the right
           lens.style.top = `${y + image.offsetTop}px`;
         }
 
