@@ -17,8 +17,8 @@
     <title>The Outsiders &mdash; Character Cards</title>
 
     <style>
-      @import url('https://rsms.me/inter/inter.css');
-      @import url(https://fonts.googleapis.com/css?family=Montserrat:300,500,600,700);
+      @import url("https://rsms.me/inter/inter.css");
+      @import url("https://fonts.googleapis.com/css?family=Montserrat:300,500,600,700");
 
       * {
         box-sizing: border-box;
@@ -64,7 +64,7 @@
       }
 
       .card {
-        padding: 10px;
+        margin: 10px;
         cursor: crosshair;
       }
 
@@ -105,7 +105,7 @@
     <p>
       <i>
         (hover over an image to zoom in in case the text is too small)<br>
-        (also works on touchscreen)<br>
+        (also works on touchscreen though I recommend you use a computer)<br>
         (if this is your first time visiting this page zoom may not work properly &mdash; simply reload the page to fix this)
       </i>
     </p>
@@ -181,6 +181,16 @@
             pos.y * scale - (lens.offsetHeight / 2)
           }px`;
 
+         /** @param x number @param a number @pararm b number */
+         var clamp = function (x, a, b) {
+           if (x < a) return a;
+           if (x > b) return b;
+           return x;
+         }
+
+          x = clamp(x, 0, image.offsetWidth - lens.offsetWidth);
+          y = clamp(y, 0, image.offsetHeight - lens.offsetHeight);
+
           // Reposition lens
           lens.style.left = `${x + image.offsetLeft}px`; // Position lens slightly to the right
           lens.style.top = `${y + image.offsetTop}px`;
@@ -193,7 +203,6 @@
         }
 
         // Add event listeners
-        // lens.addEventListener("mousemove", moveLens);
         image.addEventListener("mousemove", moveLens);
         image.addEventListener("mouseout", removeLens);
         // Also for touchscreen
