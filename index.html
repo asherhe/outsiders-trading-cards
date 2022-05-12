@@ -199,7 +199,7 @@
         // Also for touchscreen
         image.addEventListener("touchstart", moveLens);
         image.addEventListener("touchmove", moveLens);
-        image.addEventListener("touchleave", removeLens);
+        image.addEventListener("touchend", removeLens);
       }
 
       // Add zoom lenses to all images
