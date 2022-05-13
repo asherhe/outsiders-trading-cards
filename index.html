@@ -26,12 +26,12 @@
     }
 
     html {
-      font-family: 'Inter', sans-serif;
+      font-family: "Inter", sans-serif;
     }
 
     @supports (font-variation-settings: normal) {
       html {
-        font-family: 'Inter var', sans-serif;
+        font-family: "Inter var", sans-serif;
       }
     }
 
@@ -61,7 +61,7 @@
     }
 
     h1 {
-      font-family: 'Montserrat', sans-serif;
+      font-family: "Montserrat", sans-serif;
       font-weight: 600;
       font-size: 2.5em;
     }
@@ -94,14 +94,13 @@
       height: 200px;
 
       background-repeat: no-repeat;
-      background-position: 100% 100%;
       background-color: #606060;
 
       pointer-events: none;
     }
 
     .footer-message {
-      font-family: 'Montserrat', sans-serif;
+      font-family: "Montserrat", sans-serif;
       font-weight: 300;
       color: #404040;
     }
@@ -112,9 +111,9 @@
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
+    gtag("js", new Date());
 
-    gtag('config', 'G-NNCV8HEYV9');
+    gtag("config", "G-NNCV8HEYV9");
   </script>
 </head>
 
@@ -124,10 +123,11 @@
     <p>
       <i>
         (hover over an image to zoom in in case the text is too small)<br>
-        (also works on touchscreen though I recommend you use a computer)<br>
-        (if this is your first time visiting this page zoom may not work properly &mdash; simply reload the page to fix
-        this)
+        (also works on touchscreen though I recommend you use a computer)
       </i>
+    </p>
+    <p>
+      <b>If zoom does not work try reloading the page</b>
     </p>
 
     <div class="card-container">
@@ -150,7 +150,8 @@
       function addZoom(imageID) {
         /** @type HTMLImageElement */
         const image = document.getElementById(imageID);
-        // Create a new zoom lens for each image
+
+        // Create a new zoom lens
         const lens = document.createElement("div");
         lens.style.display = "none";
         lens.setAttribute("class", "zoom-lens");
@@ -177,15 +178,13 @@
           x -= window.pageXOffset;
           y -= window.pageYOffset;
 
-          return {
-            x: x,
-            y: y
-          };
+          return { x: x, y: y };
         }
 
         /** @param {MouseEvent} e */
         const moveLens = function (e) {
           e.preventDefault();
+
           lens.style.display = "block";
 
           var pos = cursorPos(e);
@@ -213,16 +212,18 @@
             pos.y * scale - (lens.offsetHeight / 2),
             0,
             (image.offsetHeight - (lens.offsetHeight / 2)) * scale);
+
           lens.style.backgroundPosition = `-${pos.x}px -${pos.y}px`;
 
           // Reposition lens
-          lens.style.left = `${x + image.offsetLeft}px`; // Position lens slightly to the right
+          lens.style.left = `${x + image.offsetLeft}px`;
           lens.style.top = `${y + image.offsetTop}px`;
         }
 
         /** @param {MouseEvent} e */
         const removeLens = function (e) {
           e.preventDefault();
+
           lens.style.display = "none";
         }
 
