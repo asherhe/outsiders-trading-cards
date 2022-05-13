@@ -14,11 +14,6 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg">
-  <defs>
-    <style type="text/css">
-      @import url("https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700");
-    </style>
-  </defs>
   <sodipodi:namedview
      id="namedview7"
      pagecolor="#ffffff"
