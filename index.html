@@ -37,11 +37,25 @@
 
     body {
       text-align: center;
+
+      background: #c0c0c0;
+      background: linear-gradient(156deg, rgba(129, 115, 198, 1) 0%, rgba(125, 71, 177, 1) 23%, rgba(207, 95, 77, 1) 77%, rgba(230, 195, 103, 1) 95%);
     }
 
-    body>* {
+    .content,
+    .content>* {
       margin-left: auto;
       margin-right: auto;
+    }
+
+    .content {
+      width: 80%;
+      margin-top: 100px;
+      margin-bottom: 150px;
+      padding: 50px;
+
+      background-color: #ffffffd0;
+      border-radius: 10px;
     }
 
     h1 {
@@ -59,7 +73,7 @@
       align-items: center;
       align-content: center;
 
-      background-color: #e0e0e0;
+      background-color: #f0f0f0c0;
       border-radius: 10px;
       padding: 20px;
     }
@@ -102,130 +116,131 @@
 </head>
 
 <body>
-  <h1>The Outsiders &mdash; Character Trading Cards</h1>
+  <div class="content">
+    <h1>The Outsiders &mdash; Character Trading Cards</h1>
+    <p>
+      <i>
+        (hover over an image to zoom in in case the text is too small)<br>
+        (also works on touchscreen though I recommend you use a computer)<br>
+        (if this is your first time visiting this page zoom may not work properly &mdash; simply reload the page to fix
+        this)
+      </i>
+    </p>
 
-  <p>
-    <i>
-      (hover over an image to zoom in in case the text is too small)<br>
-      (also works on touchscreen though I recommend you use a computer)<br>
-      (if this is your first time visiting this page zoom may not work properly &mdash; simply reload the page to fix
-      this)
-    </i>
-  </p>
+    <div class="card-container">
+      <img src="./bob.svg" class="card" id="card-bob">
+      <img src="./dally.svg" class="card" id="card-dally">
+      <img src="./soda.svg" class="card" id="card-soda">
+      <img src="./johnny.svg" class="card" id="card-johnny">
+      <img src="./ponyboy.svg" class="card" id="card-ponyboy">
+      <img src="./darry.svg" class="card" id="card-darry">
+    </div>
 
-  <div class="card-container">
-    <img src="./bob.svg" class="card" id="card-bob">
-    <img src="./dally.svg" class="card" id="card-dally">
-    <img src="./soda.svg" class="card" id="card-soda">
-    <img src="./johnny.svg" class="card" id="card-johnny">
-    <img src="./ponyboy.svg" class="card" id="card-ponyboy">
-    <img src="./darry.svg" class="card" id="card-darry">
-  </div>
+    <p class="footer-message">
+      Copyright &copy; Brandon and Asher 2022 <br>
+      Site programmed by Asher
+    </p>
 
-  <p class="footer-message">
-    Copyright &copy; Brandon and Asher 2022 <br>
-    Site programmed by Asher
-  </p>
+    <script>
+      const scale = 2;
 
-  <script>
-    const scale = 2;
+      function addZoom(imageID) {
+        /** @type HTMLImageElement */
+        const image = document.getElementById(imageID);
+        // Create a new zoom lens for each image
+        const lens = document.createElement("div");
+        lens.style.display = "none";
+        lens.setAttribute("class", "zoom-lens");
+        image.parentElement.appendChild(lens);
+        lens.style.backgroundImage = `url("${image.src}")`;
+        lens.style.backgroundSize = `${image.width * scale}px ${image.height * scale}px`;
 
-    function addZoom(imageID) {
-      /** @type HTMLImageElement */
-      const image = document.getElementById(imageID);
-      // Create a new zoom lens for each image
-      const lens = document.createElement("div");
-      lens.style.display = "none";
-      lens.setAttribute("class", "zoom-lens");
-      image.parentElement.appendChild(lens);
-      lens.style.backgroundImage = `url("${image.src}")`;
-      lens.style.backgroundSize = `${image.width * scale}px ${image.height * scale}px`;
+        /**
+         * @param {MouseEvent} e
+         * @returns {x: number, y: number}
+         */
+        const cursorPos = function (e) {
+          // In case something weird happened
+          e = e || window.event;
 
-      /**
-       * @param {MouseEvent} e
-       * @returns {x: number, y: number}
-       */
-      const cursorPos = function (e) {
-        // In case something weird happened
-        e = e || window.event;
+          // Get the image's position
+          const imagePos = image.getBoundingClientRect();
 
-        // Get the image's position
-        const imagePos = image.getBoundingClientRect();
+          // Calculate the cursor's position relative to the image
+          var x = e.pageX - imagePos.left;
+          var y = e.pageY - imagePos.top;
 
-        // Calculate the cursor's position relative to the image
-        var x = e.pageX - imagePos.left;
-        var y = e.pageY - imagePos.top;
+          // Consider page scrolling
+          x -= window.pageXOffset;
+          y -= window.pageYOffset;
 
-        // Consider page scrolling
-        x -= window.pageXOffset;
-        y -= window.pageYOffset;
-
-        return {
-          x: x,
-          y: y
-        };
-      }
-
-      /** @param {MouseEvent} e */
-      const moveLens = function (e) {
-        e.preventDefault();
-        lens.style.display = "block";
-
-        var pos = cursorPos(e);
-
-        // Calculate the position of the top-left corner of the lens
-        var x = pos.x - (lens.offsetWidth / 2);
-        var y = pos.y - (lens.offsetHeight / 2);
-
-        /** @param x number @param a number @pararm b number */
-        var clamp = function (x, a, b) {
-          if (x < a) return a;
-          if (x > b) return b;
-          return x;
+          return {
+            x: x,
+            y: y
+          };
         }
 
-        x = clamp(x, 0, image.offsetWidth - lens.offsetWidth);
-        y = clamp(y, 0, image.offsetHeight - lens.offsetHeight);
+        /** @param {MouseEvent} e */
+        const moveLens = function (e) {
+          e.preventDefault();
+          lens.style.display = "block";
 
-        // Reposition lens image
-        pos.x = clamp(
-          pos.x * scale - (lens.offsetWidth / 2),
-          0,
-          (image.offsetWidth - (lens.offsetWidth / 2)) * scale);
-        pos.y = clamp(
-          pos.y * scale - (lens.offsetHeight / 2),
-          0,
-          (image.offsetHeight - (lens.offsetHeight / 2)) * scale);
-        lens.style.backgroundPosition = `-${pos.x}px -${pos.y}px`;
+          var pos = cursorPos(e);
 
-        // Reposition lens
-        lens.style.left = `${x + image.offsetLeft}px`; // Position lens slightly to the right
-        lens.style.top = `${y + image.offsetTop}px`;
+          // Calculate the position of the top-left corner of the lens
+          var x = pos.x - (lens.offsetWidth / 2);
+          var y = pos.y - (lens.offsetHeight / 2);
+
+          /** @param x number @param a number @pararm b number */
+          var clamp = function (x, a, b) {
+            if (x < a) return a;
+            if (x > b) return b;
+            return x;
+          }
+
+          x = clamp(x, 0, image.offsetWidth - lens.offsetWidth);
+          y = clamp(y, 0, image.offsetHeight - lens.offsetHeight);
+
+          // Reposition lens image
+          pos.x = clamp(
+            pos.x * scale - (lens.offsetWidth / 2),
+            0,
+            (image.offsetWidth - (lens.offsetWidth / 2)) * scale);
+          pos.y = clamp(
+            pos.y * scale - (lens.offsetHeight / 2),
+            0,
+            (image.offsetHeight - (lens.offsetHeight / 2)) * scale);
+          lens.style.backgroundPosition = `-${pos.x}px -${pos.y}px`;
+
+          // Reposition lens
+          lens.style.left = `${x + image.offsetLeft}px`; // Position lens slightly to the right
+          lens.style.top = `${y + image.offsetTop}px`;
+        }
+
+        /** @param {MouseEvent} e */
+        const removeLens = function (e) {
+          e.preventDefault();
+          lens.style.display = "none";
+        }
+
+        // Add event listeners
+        image.addEventListener("mousemove", moveLens);
+        image.addEventListener("mouseout", removeLens);
+        // Also for touchscreen
+        image.addEventListener("touchstart", moveLens);
+        image.addEventListener("touchmove", moveLens);
+        image.addEventListener("touchend", removeLens);
       }
 
-      /** @param {MouseEvent} e */
-      const removeLens = function (e) {
-        e.preventDefault();
-        lens.style.display = "none";
-      }
-
-      // Add event listeners
-      image.addEventListener("mousemove", moveLens);
-      image.addEventListener("mouseout", removeLens);
-      // Also for touchscreen
-      image.addEventListener("touchstart", moveLens);
-      image.addEventListener("touchmove", moveLens);
-      image.addEventListener("touchend", removeLens);
-    }
-
-    // Add zoom lenses to all images
-    addZoom("card-bob");
-    addZoom("card-dally");
-    addZoom("card-soda");
-    addZoom("card-johnny");
-    addZoom("card-ponyboy");
-    addZoom("card-darry");
-  </script>
+      // Add zoom lenses to all images
+      addZoom("card-bob");
+      addZoom("card-dally");
+      addZoom("card-soda");
+      addZoom("card-johnny");
+      addZoom("card-ponyboy");
+      addZoom("card-darry");
+    </script>
+  </div>
 </body>
 
 </html>
