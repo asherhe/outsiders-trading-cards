@@ -158,6 +158,8 @@
         // Create a new zoom lens
         const lens = document.createElement("div");
         image.parentElement.appendChild(lens);
+        lens.style.display = "none";
+        lens.setAttribute("class", "zoom-lens");
         lens.style.backgroundImage = `url("${image.src}")`;
         lens.style.backgroundSize = `${image.width * scale}px ${image.height * scale}px`;
 
@@ -192,8 +194,8 @@
           var pos = cursorPos(e);
 
           // Calculate the position of the top-left corner of the lens
-          var x = pos.x - ($(lens).width() / 2);
-          var y = pos.y - ($(lens).height() / 2);
+          var x = pos.x - (lens.offsetWidth / 2);
+          var y = pos.y - (lens.offsetHeight / 2);
 
           /** @param x number @param a number @pararm b number */
           var clamp = function (x, a, b) {
@@ -202,25 +204,24 @@
             return x;
           }
 
-          x = clamp(x, 0, $(image).width() - $(lens).width());
-          y = clamp(y, 0, $(image).height() - $(lens).height());
+          x = clamp(x, 0, image.offsetWidth - lens.offsetWidth);
+          y = clamp(y, 0, image.offsetHeight - lens.offsetHeight);
 
           // Reposition lens image
           pos.x = clamp(
-            pos.x * scale - ($(lens).width() / 2),
+            pos.x * scale - (lens.offsetWidth / 2),
             0,
-            ($(image).width() - ($(lens).width() / 2)) * scale);
+            (image.offsetWidth - (lens.offsetWidth / 2)) * scale);
           pos.y = clamp(
-            pos.y * scale - ($(lens).height() / 2),
+            pos.y * scale - (lens.offsetHeight / 2),
             0,
-            ($(image).height() - ($(lens).height() / 2)) * scale);
+            (image.offsetHeight - (lens.offsetHeight / 2)) * scale);
 
-          $(lens).css("backgroundPosition", `-${pos.x}px -${pos.y}px`);
+          lens.style.backgroundPosition = `-${pos.x}px -${pos.y}px`;
 
           // Reposition lens
-          $(lens)
-            .css("top", `${y + image.offsetTop}px`)
-            .css("left", `${x + image.offsetLeft}px`);
+          lens.style.left = `${x + image.offsetLeft}px`;
+          lens.style.top = `${y + image.offsetTop}px`;
         }
 
         /** @param {MouseEvent} e */
