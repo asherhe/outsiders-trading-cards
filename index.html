@@ -239,14 +239,14 @@
       }
 
       // Add zoom lenses to all images
-      setTimeout(() => {
+      window.addEventListener("load", () => {
         addZoom("card-bob");
         addZoom("card-dally");
         addZoom("card-soda");
         addZoom("card-johnny");
         addZoom("card-ponyboy");
         addZoom("card-darry");
-      }, 500);
+      });
     </script>
   </div>
 </body>
