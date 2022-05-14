@@ -157,7 +157,10 @@
         lens.setAttribute("class", "zoom-lens");
         image.parentElement.appendChild(lens);
         lens.style.backgroundImage = `url("${image.src}")`;
-        lens.style.backgroundSize = `${image.width * scale}px ${image.height * scale}px`;
+
+        setTimeout(() => {
+          lens.style.backgroundSize = `${image.width * scale}px ${image.height * scale}px`;
+        }, 500);
 
         /**
          * @param {MouseEvent} e
@@ -237,14 +240,12 @@
       }
 
       // Add zoom lenses to all images
-      setTimeout(() => {
-        addZoom("card-bob");
-        addZoom("card-dally");
-        addZoom("card-soda");
-        addZoom("card-johnny");
-        addZoom("card-ponyboy");
-        addZoom("card-darry");
-      }, 500);
+      addZoom("card-bob");
+      addZoom("card-dally");
+      addZoom("card-soda");
+      addZoom("card-johnny");
+      addZoom("card-ponyboy");
+      addZoom("card-darry");
     </script>
   </div>
 </body>
