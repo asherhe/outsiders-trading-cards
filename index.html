@@ -158,11 +158,16 @@
         // Create a new zoom lens
         const lens = document.createElement("div");
         image.parentElement.appendChild(lens);
+<<<<<<< HEAD
         $(lens)
           .addClass("zoom-lens")
           .css("display", "none")
           .css("backgroundImage", `url("${image.src}")`)
           .css("backgroundSize", `${image.width * scale}px ${image.height * scale}px`);
+=======
+        lens.style.backgroundImage = `url("${image.src}")`;
+        lens.style.backgroundSize = `${image.width * scale}px ${image.height * scale}px`;
+>>>>>>> parent of 4ca11e9 (Run everything else first before waiting for stuff to load)
 
         /**
          * @param {MouseEvent} e
@@ -244,14 +249,22 @@
       }
 
       // Add zoom lenses to all images
+<<<<<<< HEAD
       $(document).ready(() => {
+=======
+      setTimeout(() => {
+>>>>>>> parent of 4ca11e9 (Run everything else first before waiting for stuff to load)
         addZoom("card-bob");
         addZoom("card-dally");
         addZoom("card-soda");
         addZoom("card-johnny");
         addZoom("card-ponyboy");
         addZoom("card-darry");
+<<<<<<< HEAD
       })
+=======
+      }, 500);
+>>>>>>> parent of 4ca11e9 (Run everything else first before waiting for stuff to load)
     </script>
   </div>
 </body>
